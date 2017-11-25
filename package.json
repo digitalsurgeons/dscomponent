@@ -1,0 +1,16 @@
+{
+  "name": "dscomponent",
+  "version": "1.0.0",
+  "description":
+    "A command line utility to assist in the creation of DS Boilerplate components",
+  "main": "index.js",
+  "author": "Digital Surgeons <techroom@digitalsurgeons.com>",
+  "license": "ISC",
+  "bin": {
+    "dscomponent": "./index.js"
+  },
+  "preferGlobal": true,
+  "dependencies": {
+    "commander": "^2.12.1"
+  }
+}
