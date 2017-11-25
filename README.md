@@ -1,6 +1,6 @@
 # DSComponent
 
-A command line utility to assist in the creation of DS Boilerplate components. Create a new component in your projects components directory with Sass and optional JS files ready to go.
+A command line utility to assist in the creation of DS Boilerplate components. Create a new component in your projects components directory with Twig, Sass, and optional JS ready to go.
 
 ```
 # clone this repo
