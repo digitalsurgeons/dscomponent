@@ -46,8 +46,6 @@ const argv = minimist(process.argv.slice(2), {
   ]
 })
 
-console.log(argv['no-js'])
-
 ;(function main (argv) {
   const component = argv._[0]
 
