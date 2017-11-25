@@ -5,7 +5,7 @@ const program = require('commander')
 let data = {}
 
 program
-  .version('1.0.0')
+  .version('1.0.1')
   .description(
     'A command line utility to assist in the creation of DS Boilerplate component'
   )
@@ -32,6 +32,9 @@ if (!fs.existsSync(parentDir)) {
 if (!fs.existsSync(childDir)) {
   fs.mkdirSync(childDir)
 }
+
+// create twig file
+fs.openSync(`${childDir}/index.twig`, 'w')
 
 // create styles file
 fs.openSync(`${childDir}/styles.scss`, 'w')
