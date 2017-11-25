@@ -11,6 +11,10 @@
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
     "dedent": "^0.7.0",
-    "minimist": "^1.2.0"
+    "map-limit": "0.0.1",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2",
+    "run-series": "^1.1.4"
   }
 }
