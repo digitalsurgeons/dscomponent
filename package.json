@@ -2,6 +2,7 @@
   "name": "dscomponent",
   "version": "1.1.0",
   "description": "A command line utility to assist in the creation of DS Boilerplate components",
+  "repository": "digitalsurgeons/dscomponent",
   "author": "Digital Surgeons <techroom@digitalsurgeons.com>",
   "license": "MIT",
   "bin": {
