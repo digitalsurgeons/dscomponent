@@ -64,6 +64,13 @@ const argv = minimist(process.argv.slice(2), {
 function create (dir, argv) {
   const written = []
 
+  const cmds = [
+    function (done) {
+      print(`Creating a new component directory in ${clr(dir, 'green')}`)
+      lib.mkdir(dir, done)
+    }
+  ]
+
   // psuedo schema for writing files
   // filename: method to writeFile
   const toWrite = {
@@ -71,13 +78,6 @@ function create (dir, argv) {
     'styles.scss': 'writeCSS',
     'index.js': 'writeJS'
   }
-
-  const cmds = [
-    function (done) {
-      print(`Creating a new component directory in ${clr(dir, 'green')}`)
-      lib.mkdir(dir, done)
-    }
-  ]
 
   Object.keys(toWrite).forEach(function (filename) {
     if (filename === 'index.js' && argv.skip === 'js') return
