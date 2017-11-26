@@ -2,11 +2,11 @@
   "name": "dscomponent",
   "version": "1.0.1",
   "description": "A command line utility to assist in the creation of DS Boilerplate components",
-  "main": "index.js",
+  "main": "bin.js",
   "author": "Digital Surgeons <techroom@digitalsurgeons.com>",
   "license": "ISC",
   "bin": {
-    "dscomponent": "./index.js"
+    "dscomponent": "./bin.js"
   },
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
