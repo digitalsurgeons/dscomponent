@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const ansi = require('ansi-escape-sequences')
 const dedent = require('dedent')
-const minimist = require('mri')
+const minimist = require('minimist')
 const series = require('run-series')
 const mapLimit = require('map-limit')
 
