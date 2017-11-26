@@ -83,7 +83,7 @@ either `css` or `scss` works as a skip option
 #### generate component silently 
 
 ```bash
-  $ dscomponent --version --quiet
+  $ dscomponent --quiet
 ```
 
 
