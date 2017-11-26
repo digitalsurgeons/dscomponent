@@ -15,7 +15,7 @@ const USAGE = `
   $ ${clr('dscomponent', 'bold')} ${clr('<component-name>', 'green')} [options]
 
   Options:
-    -s, --skip        skip creating file. Options: css, js, twig
+    -S, --skip        skip creating file. Options: css, js, twig
     -h, --help        print usage
     -v, --version     print version
     -q, --quiet       don't output any logs
@@ -34,7 +34,7 @@ const NOCOMPONENT = `
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
-    skip: 's',
+    skip: ['S', 's'],
     help: 'h',
     version: 'v',
     quiet: 'q'
