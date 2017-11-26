@@ -2,9 +2,8 @@
   "name": "dscomponent",
   "version": "1.0.1",
   "description": "A command line utility to assist in the creation of DS Boilerplate components",
-  "main": "bin.js",
   "author": "Digital Surgeons <techroom@digitalsurgeons.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "dscomponent": "./bin.js"
   },
