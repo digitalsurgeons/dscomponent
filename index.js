@@ -18,9 +18,7 @@ exports.writeTwig = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const file = dedent`
     <section class='${component}'>
-      <div class='${component}__container'>
-        <!-- additional ${component} component code here -->
-      </div>
+      <!-- component-name markup goes here-->
     </section>\n
   `
 
@@ -31,22 +29,7 @@ exports.writeCSS = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const file = dedent`
     .${component} {
-      background-color: rgba($white, 0.9);
-      width: 100%;
-    }
-
-    .${component}__container {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      padding: 20px;
-      padding-bottom: 20px;
-      padding-top: 20px;
-      width: 100%;
-
-      @media (min-width: $medium-screen) {
-        padding: 30px 20px;
-      }
+      /* component styles go here */
     }\n
   `
 
