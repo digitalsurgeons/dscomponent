@@ -16,30 +16,30 @@ exports.mkdir = function (dir, cb) {
 
 exports.writeTwig = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
-  const file = dedent`
+  const data = dedent`
     <section class='${component}'>
       <!-- component-name markup goes here-->
     </section>\n
   `
 
-  write(filename, file, cb)
+  write(filename, data, cb)
 }
 
 exports.writeCSS = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
-  const file = dedent`
+  const data = dedent`
     .${component} {
       /* component styles go here */
     }\n
   `
 
-  write(filename, file, cb)
+  write(filename, data, cb)
 }
 
 exports.writeJS = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const capitalize = component.replace(component.charAt(0), component.charAt(0).toUpperCase())
-  const file = dedent`
+  const data = dedent`
     import $ from 'jquery'
 
     class ${capitalize} {
@@ -59,11 +59,11 @@ exports.writeJS = function (component, filename, cb) {
     ${component}.init()\n
   `
 
-  write(filename, file, cb)
+  write(filename, data, cb)
 }
 
-function write (filename, file, cb) {
-  fs.writeFile(filename, file, function (err) {
+function write (filename, data, cb) {
+  fs.writeFile(filename, data, function (err) {
     if (err) return cb(new Error('Could not write file ' + filename))
     cb()
   })
