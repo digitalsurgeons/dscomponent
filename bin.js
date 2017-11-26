@@ -15,7 +15,7 @@ const USAGE = `
   $ ${clr('dscomponent', 'bold')} ${clr('<component-name>', 'green')} [options]
 
   Options:
-    -S, --skip        skip creating file. Options: css, js, twig
+    -s, --skip        skip creating file. Options: css, js, twig
     -h, --help        print usage
     -v, --version     print version
     -q, --quiet       don't output any logs
@@ -34,7 +34,7 @@ const NOCOMPONENT = `
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
-    skip: 'S',
+    skip: 's',
     help: 'h',
     version: 'v',
     quiet: 'q'
@@ -82,7 +82,10 @@ function create (dir, argv) {
   Object.keys(toWrite).forEach(function (filename) {
     if (filename === 'index.js' && argv.skip === 'js') return
     if (filename === 'index.twig' && argv.skip === 'twig') return
-    if (filename === 'styles.scss' && argv.skip === 'css') return
+
+    var isStyles = argv.skip === 'css' || argv.skip === 'scss'
+    if (filename === 'styles.scss' && isStyles) return
+
     const method = toWrite[filename]
     const component = argv._[0]
     const fn = function (done) {
@@ -120,13 +123,6 @@ function create (dir, argv) {
   function printFile (filename) {
     print(`Creating file ${clr(filename, 'cyan')} in directory ${dir}`)
   }
-}
-
-function write (filename, file, cb) {
-  fs.writeFile(filename, file, function (err) {
-    if (err) return cb(new Error('Could not write file ' + filename))
-    cb()
-  })
 }
 
 function clr (text, color) {
