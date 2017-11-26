@@ -1,47 +1,70 @@
-#!/usr/bin/env node
-
 const fs = require('fs')
-const program = require('commander')
-let data = {}
+const path = require('path')
+const dedent = require('dedent')
+const mkdirp = require('mkdirp')
 
-program
-  .version('1.0.1')
-  .description(
-    'A command line utility to assist in the creation of DS Boilerplate component'
-  )
-  // program.js will be set to false if --no-js specified
-  .option('--no-js', 'Remove index.js')
-  // first and only argument is name of component
-  .arguments('<name>')
-  // store name in data object
-  .action(name => {
-    data.name = name
+exports.mkdir = function (dir, cb) {
+  mkdirp(dir, function (err) {
+    if (err) return cb(new Error('Could not create directory ' + dir))
+    fs.readdir(dir, function (err, files) {
+      if (err) return cb(new Error('Could not read directory ' + dir))
+      if (files.length) return cb(new Error('Directory contains files. This might create conflicts.'))
+      cb()
+    })
   })
-  .parse(process.argv)
-
-// directory paths
-const parentDir = `${process.cwd()}/components`
-const childDir = `${parentDir}/${data.name}`
-
-// if no components folder then create first
-if (!fs.existsSync(parentDir)) {
-  fs.mkdirSync(parentDir)
 }
 
-// then create component directory
-if (!fs.existsSync(childDir)) {
-  fs.mkdirSync(childDir)
+exports.writeTwig = function (component, filename, cb) {
+  // TODO: add logic for panels, buttons, mastheads, etc...
+  const file = dedent`
+    <section class='${component}'>
+      <!-- component-name markup goes here-->
+    </section>\n
+  `
+
+  write(filename, file, cb)
 }
 
-// create twig file
-fs.openSync(`${childDir}/index.twig`, 'w')
+exports.writeCSS = function (component, filename, cb) {
+  // TODO: add logic for panels, buttons, mastheads, etc...
+  const file = dedent`
+    .${component} {
+      /* component styles go here */
+    }\n
+  `
 
-// create styles file
-fs.openSync(`${childDir}/styles.scss`, 'w')
-
-// create JS file if required
-if (program.js) {
-  fs.openSync(`${childDir}/index.js`, 'w')
+  write(filename, file, cb)
 }
 
-console.log(`${data.name} component created`)
+exports.writeJS = function (component, filename, cb) {
+  // TODO: add logic for panels, buttons, mastheads, etc...
+  const capitalize = component.replace(component.charAt(0), component.charAt(0).toUpperCase())
+  const file = dedent`
+    import $ from 'jquery'
+
+    class ${capitalize} {
+      constructor(element, options) {
+        this.element = $(element)
+      }
+
+      init() {
+        if (!this.element.length) {
+          return
+        }
+      }
+    }
+
+    const ${component} = new ${capitalize}()
+
+    ${component}.init()\n
+  `
+
+  write(filename, file, cb)
+}
+
+function write (filename, file, cb) {
+  fs.writeFile(filename, file, function (err) {
+    if (err) return cb(new Error('Could not write file ' + filename))
+    cb()
+  })
+}
