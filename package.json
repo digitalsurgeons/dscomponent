@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
+    "dedash": "^1.0.2",
     "dedent": "^0.7.0",
     "map-limit": "0.0.1",
     "minimist": "^1.2.0",

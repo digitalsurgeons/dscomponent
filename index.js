@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const dedent = require('dedent')
 const mkdirp = require('mkdirp')
+const dedash = require('dedash')
 
 exports.mkdir = function (dir, cb) {
   mkdirp(dir, function (err) {
@@ -39,10 +40,11 @@ exports.writeCSS = function (component, filename, cb) {
 exports.writeJS = function (component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const capitalize = component.replace(component.charAt(0), component.charAt(0).toUpperCase())
+  const ctor = dedash(capitalize)
   const data = dedent`
     import $ from 'jquery'
 
-    class ${capitalize} {
+    class ${ctor} {
       constructor(element, options) {
         this.element = $(element)
       }
@@ -54,9 +56,9 @@ exports.writeJS = function (component, filename, cb) {
       }
     }
 
-    const ${component} = new ${capitalize}()
+    const ${dedash(component)} = new ${ctor}()
 
-    ${component}.init()\n
+    ${dedash(component)}.init()\n
   `
 
   write(filename, data, cb)
