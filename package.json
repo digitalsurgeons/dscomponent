@@ -1,6 +1,6 @@
 {
   "name": "dscomponent",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "A command line utility to assist in the creation of DS Boilerplate components",
   "repository": "digitalsurgeons/dscomponent",
   "author": "Digital Surgeons <techroom@digitalsurgeons.com>",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
-    "dedash": "^1.0.2",
+    "cama": "^1.0.0",
     "dedent": "^0.7.0",
     "map-limit": "0.0.1",
     "minimist": "^1.2.0",
