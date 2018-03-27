@@ -11,26 +11,29 @@ const mapLimit = require('map-limit')
 const lib = require('./')
 
 const USAGE = `
-  A command line utility to assist in the creation of DS Boilerplate component
-  $ ${clr('dscomponent', 'bold')} ${clr('<component-name>', 'green')} [options]
+  A command line utility to assist in the creation of a DS React component
+  $ ${clr('dscomponent', 'bold')} ${clr('<ComponentName>', 'green')} [options]
 
   Options:
-    -S, --skip        skip creating file. Options: css, js, twig
     -h, --help        print usage
     -v, --version     print version
     -q, --quiet       don't output any logs
 
-`.replace(/\n$/, '').replace(/^\n/, '')
+`
+  .replace(/\n$/, '')
+  .replace(/^\n/, '')
 
 const NOCOMPONENT = `
   Please specify the component name:
     ${clr('$ dscomponent', 'cyan')} ${clr('<component-name>', 'green')}
 
   For example:
-    ${clr('$ dscomponent', 'cyan')} ${clr('my-component', 'green')}
+    ${clr('$ dscomponent', 'cyan')} ${clr('MyComponent', 'green')}
 
   Run ${clr('dscomponent --help', 'cyan')} to see all options.
-`.replace(/\n$/, '').replace(/^\n/, '')
+`
+  .replace(/\n$/, '')
+  .replace(/^\n/, '')
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -39,14 +42,9 @@ const argv = minimist(process.argv.slice(2), {
     version: 'v',
     quiet: 'q'
   },
-  boolean: [
-    'help',
-    'version',
-    'quiet'
-  ]
+  boolean: ['help', 'version', 'quiet']
 })
-
-;(function main (argv) {
+;(function main(argv) {
   const component = argv._[0]
 
   if (argv.help) {
@@ -57,15 +55,15 @@ const argv = minimist(process.argv.slice(2), {
     console.log(NOCOMPONENT)
     process.exit(1)
   } else {
-    create(path.join(process.cwd(), component), argv)
+    create(path.join(process.cwd(), `./components/${component}`), argv)
   }
 })(argv)
 
-function create (dir, argv) {
+function create(dir, argv) {
   const written = []
 
   const cmds = [
-    function (done) {
+    function(done) {
       print(`Creating a new component directory in ${clr(dir, 'green')}`)
       lib.mkdir(dir, done)
     }
@@ -74,21 +72,15 @@ function create (dir, argv) {
   // psuedo schema for writing files
   // filename: method to writeFile
   const toWrite = {
-    'index.twig': 'writeTwig',
-    'styles.scss': 'writeCSS',
-    'index.js': 'writeJS'
+    'index.js': 'writeComponent',
+    'styles.js': 'writeStyles',
+    'test.spec.js': 'writeTest'
   }
 
-  Object.keys(toWrite).forEach(function (filename) {
-    if (filename === 'index.js' && argv.skip === 'js') return
-    if (filename === 'index.twig' && argv.skip === 'twig') return
-
-    var isStyles = argv.skip === 'css' || argv.skip === 'scss'
-    if (filename === 'styles.scss' && isStyles) return
-
+  Object.keys(toWrite).forEach(function(filename) {
     const method = toWrite[filename]
     const component = argv._[0]
-    const fn = function (done) {
+    const fn = function(done) {
       printFile(filename)
       const file = path.join(dir, filename)
       written.push(file)
@@ -98,11 +90,11 @@ function create (dir, argv) {
     cmds.push(fn)
   })
 
-  series(cmds, function (err) {
+  series(cmds, function(err) {
     if (err) {
       print('\nAborting installation. The following error occured:')
       print(`   ${clr(err.message, 'red')}\n`)
-      mapLimit(written, 1, cleanFile, function (err) {
+      mapLimit(written, 1, cleanFile, function(err) {
         if (err) throw err
         console.log('Cleanup completed, please try again sometime.')
         process.exit(1)
@@ -116,20 +108,20 @@ function create (dir, argv) {
     }
   })
 
-  function print (val) {
+  function print(val) {
     if (!argv.quiet) console.log(val)
   }
 
-  function printFile (filename) {
+  function printFile(filename) {
     print(`Creating file ${clr(filename, 'cyan')} in directory ${dir}`)
   }
 }
 
-function clr (text, color) {
+function clr(text, color) {
   return process.stdout.isTTY ? ansi.format(text, color) : text
 }
 
-function cleanFile (file, cb) {
+function cleanFile(file, cb) {
   console.log('Deleting generated file… ' + clr(path.basename(file), 'cyan'))
   rimraf(file, cb)
 }

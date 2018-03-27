@@ -4,68 +4,77 @@ const dedent = require('dedent')
 const mkdirp = require('mkdirp')
 const cama = require('cama')
 
-exports.mkdir = function (dir, cb) {
-  mkdirp(dir, function (err) {
+exports.mkdir = function(dir, cb) {
+  mkdirp(dir, function(err) {
     if (err) return cb(new Error('Could not create directory ' + dir))
-    fs.readdir(dir, function (err, files) {
+    fs.readdir(dir, function(err, files) {
       if (err) return cb(new Error('Could not read directory ' + dir))
-      if (files.length) return cb(new Error('Directory contains files. This might create conflicts.'))
+      if (files.length)
+        return cb(
+          new Error('Directory contains files. This might create conflicts.')
+        )
       cb()
     })
   })
 }
 
-exports.writeTwig = function (component, filename, cb) {
+exports.writeTest = function(component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const data = dedent`
-    <section class='${component}'>
-      <!-- component-name markup goes here-->
-    </section>\n
+    import React from 'react'
+    import renderer from 'react-test-renderer'
+    import ${component} from './index'
+    
+    describe('${component}', () => {
+      it('renders correctly', () => {
+        const component = renderer.create(
+          <${component} />
+        )
+        let tree = component.toJSON()
+        expect(tree).toMatchSnapshot()
+      })
+    })
+    \n
   `
 
   write(filename, data, cb)
 }
 
-exports.writeCSS = function (component, filename, cb) {
+exports.writeStyles = function(component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const data = dedent`
-    .${component} {
-      /* component styles go here */
-    }\n
+    import styled from 'react-emotion'
+    import { colors } from '../../lib/constants'
+    
+    export const Root = styled('div')({
+      display: 'flex'
+    })
   `
 
   write(filename, data, cb)
 }
 
-exports.writeJS = function (component, filename, cb) {
-  // TODO: add logic for panels, buttons, mastheads, etc...
-  const capitalize = component.replace(component.charAt(0), component.charAt(0).toUpperCase())
+exports.writeComponent = function(component, filename, cb) {
+  const capitalize = component.replace(
+    component.charAt(0),
+    component.charAt(0).toUpperCase()
+  )
   const ctor = cama(capitalize)
   const data = dedent`
-    import $ from 'jquery'
+    import { Root } from './styles'
 
-    class ${ctor} {
-      constructor(element, options) {
-        this.element = $(element)
-      }
-
-      init() {
-        if (!this.element.length) {
-          return
-        }
-      }
-    }
-
-    const ${cama(component)} = new ${ctor}()
-
-    ${cama(component)}.init()\n
+    export default () => (
+      <Root>
+        Hello World
+      </Root>
+    )\n
   `
 
   write(filename, data, cb)
 }
 
-function write (filename, data, cb) {
-  fs.writeFile(filename, data, function (err) {
+function write(filename, data, cb) {
+  fs.writeFile(filename, data, function(err) {
     if (err) return cb(new Error('Could not write file ' + filename))
     cb()
   })
