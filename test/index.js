@@ -4,7 +4,7 @@ const path = require('path')
 const test = require('tape')
 const rimraf = require('rimraf')
 const dedent = require('dedent')
-var gitConfig = require('git-config')
+const gitConfig = require('git-config')
 
 const lib = require('../')
 
