@@ -1,8 +1,8 @@
 const fs = require('fs')
-const path = require('path')
 const dedent = require('dedent')
 const mkdirp = require('mkdirp')
 const cama = require('cama')
+var gitConfig = require('git-config')
 
 exports.mkdir = function (dir, cb) {
   mkdirp(dir, function (err) {
@@ -62,6 +62,16 @@ exports.writeJS = function (component, filename, cb) {
   `
 
   write(filename, data, cb)
+}
+
+exports.writeReadMe = function (component, filename, cb) {
+  gitConfig(function (err, config) {
+    if (err) return cb(err)
+    const data = dedent`
+      # Author: ${config.user.name}
+    `
+    write(filename, data, cb)
+  })
 }
 
 function write (filename, data, cb) {

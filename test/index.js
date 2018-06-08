@@ -4,6 +4,7 @@ const path = require('path')
 const test = require('tape')
 const rimraf = require('rimraf')
 const dedent = require('dedent')
+var gitConfig = require('git-config')
 
 const lib = require('../')
 
@@ -88,6 +89,23 @@ test('writes a js file', function (t) {
 
 })
 
+test('writes a readme', function (t) {
+  t.plan(2)
+
+  gitConfig(function (err, config) {
+    if (err) return t.fail()
+
+    const expectedFile = dedent`
+      # Author: ${config.user.name}
+    `
+    writeAndClean(t, {
+      method: 'writeReadMe',
+      filename: 'README.md',
+      filetype: 'md',
+      expected: expectedFile
+    })
+  })
+})
 
 function writeAndClean (t, opts) {
   const tmpdir = path.join(os.tmpdir(), 'cooldir')

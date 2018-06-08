@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const path = require('path')
 const ansi = require('ansi-escape-sequences')
 const dedent = require('dedent')
 const minimist = require('minimist')
 const series = require('run-series')
 const mapLimit = require('map-limit')
+const rimraf = require('rimraf')
 
 const lib = require('./')
 
@@ -76,7 +76,8 @@ function create (dir, argv) {
   const toWrite = {
     'index.twig': 'writeTwig',
     'styles.scss': 'writeCSS',
-    'index.js': 'writeJS'
+    'index.js': 'writeJS',
+    'README.md': 'writeReadMe'
   }
 
   Object.keys(toWrite).forEach(function (filename) {
