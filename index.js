@@ -43,10 +43,10 @@ exports.writeTest = function(component, filename, cb) {
 exports.writeStyles = function(component, filename, cb) {
   // TODO: add logic for panels, buttons, mastheads, etc...
   const data = dedent`
-    import styled from 'react-emotion'
-    import { colors } from '../../lib/constants'
+    import styled from 'styled-components'
+    import { colors } from '../../lib/settings'
     
-    export const Root = styled('div')({
+    export const Root = styled.div({
       display: 'flex'
     })
   `
